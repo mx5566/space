@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /// <summary>
 /// This script defines 'Enemy's' health and behavior. 
@@ -22,17 +23,19 @@ public class Enemy : MonoBehaviour {
     [HideInInspector] public float shotTimeMin, shotTimeMax; //max and min time for shooting from the beginning of the path
     #endregion
 
+    public Action<Collider2D, Enemy> OnTriggerEnter2DLua;
+    public Int64 ID;
     public Enemy1 enemy;
 
     private void Start()
     {
-        Invoke("ActivateShooting", Random.Range(shotTimeMin, shotTimeMax));
+        Invoke("ActivateShooting", UnityEngine.Random.Range(shotTimeMin, shotTimeMax));
     }
 
     //coroutine making a shot
     void ActivateShooting() 
     {
-        if (Random.value < (float)shotChance / 100)                             //if random value less than shot probability, making a shot
+        if (UnityEngine.Random.value < (float)shotChance / 100)                             //if random value less than shot probability, making a shot
         {                         
             Instantiate(Projectile,  gameObject.transform.position, Quaternion.identity);             
         }
@@ -51,6 +54,11 @@ public class Enemy : MonoBehaviour {
     //if 'Enemy' collides 'Player', 'Player' gets the damage equal to projectile's damage value
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (OnTriggerEnter2DLua != null)
+        {
+            OnTriggerEnter2DLua(collision, this);
+        }
+
         if (collision.tag == "Player")
         {
             if (Projectile.GetComponent<Projectile>() != null)
@@ -62,7 +70,7 @@ public class Enemy : MonoBehaviour {
 
     //method of destroying the 'Enemy'
     void Destruction()                           
-    {        
+    {      
         Instantiate(destructionVFX, transform.position, Quaternion.identity); 
         Destroy(gameObject);
     }

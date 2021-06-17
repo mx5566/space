@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,8 +12,9 @@ public class Player : MonoBehaviour
 {
     public GameObject destructionFX;
 
-    public static Player instance; 
+    public static Player instance;
 
+    public Int64 ID;
     private void Awake()
     {
         if (instance == null) 

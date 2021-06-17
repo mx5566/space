@@ -17,6 +17,8 @@ public class VisualEffect : MonoBehaviour {
 
     IEnumerator Destruction() //wait for the estimated time, and destroying or deactivating the object
     {
+
+
         yield return new WaitForSeconds(destructionTime); 
         Destroy(gameObject);
     }

@@ -33,6 +33,7 @@ public class LevelController : MonoBehaviour {
 
     public bool StartGame()
     {
+        mainCamera = Camera.main;
         //for each element in 'enemyWaves' array creating coroutine which generates the wave
         for (int i = 0; i < enemyWaves.Length; i++)
         {
@@ -48,6 +49,8 @@ public class LevelController : MonoBehaviour {
     private void Start()
     {
         mainCamera = Camera.main;
+
+        StartGame();
     }
 
     //Create a new wave after a delay
